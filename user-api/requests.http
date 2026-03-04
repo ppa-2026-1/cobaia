@@ -1,0 +1,47 @@
+# USER API ================================================================
+
+@host=localhost:8080
+
+### Get all users
+# @name= getAllUsers
+
+GET /api/v1/users HTTP/1.1
+Host: {{host}}
+Accept: application/json
+
+### Create a new valid User
+# @name = createNewUser
+
+POST /api/v1/users HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "email": "batata@potato.com",
+    "password": "1234RT56",
+    "handle": "papas",
+    "name": "Kartofel",
+    "roles": [
+        "ROLE_USER"
+    ],
+    "company": "potato inc"
+}
+
+
+### Try and create an invalid User
+# @name = tryCreateInvalidUser
+
+POST /api/v1/users HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "email": "batata@potato.com",
+    "password": "1234",
+    "handle": "papas",
+    "name": "Kartofel",
+    "roles": [
+        "ROLE_USER"
+    ],
+    "company": "potato inc"
+}

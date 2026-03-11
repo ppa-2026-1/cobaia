@@ -1,32 +1,28 @@
-package com.example.demo;
+package com.example.demo.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
+import com.example.demo.model.dto.NewUserDTO;
+import com.example.demo.repository.RoleRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.entity.Profile;
+import com.example.demo.repository.entity.Role;
+import com.example.demo.repository.entity.User;
 
-@RestController
-@RequestMapping("/api/v1/users")
-public class UserController {
+@Service
+public class UserService {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private BCryptPasswordEncoder passwordEncoder;
     private Set<String> defaultRoles;
 
-    public UserController(
+    public UserService(
             UserRepository userRepository, 
             RoleRepository roleRepository,
             @Value("${app.user.default.roles}") Set<String> defaultRoles) {
@@ -37,10 +33,11 @@ public class UserController {
         this.defaultRoles = defaultRoles;
     }
     
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public void newUser(@RequestBody NewUser newUser) {
+    
+    public void registerNewUser(NewUserDTO newUser) {
 
+        // regras de negócio no Controller
+        // é um mau cheiro de projeto (smell)
         if (newUser.email() == null || newUser.password() == null) {
             throw new IllegalArgumentException("Email e senha são obrigatórios");
         }
@@ -100,6 +97,7 @@ public class UserController {
         userRepository.save(user); 
     }
 
+
     private String generateHandle(String email) {
         String[] parts = email.split("@");
         String handle = parts[0];
@@ -108,10 +106,5 @@ public class UserController {
             handle = parts[0] + i++;
         }
         return handle;
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
     }
 }

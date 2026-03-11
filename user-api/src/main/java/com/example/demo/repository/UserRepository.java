@@ -1,9 +1,14 @@
-package com.example.demo;
+package com.example.demo.repository;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
+
+import com.example.demo.repository.entity.User;
+
+// não deve importar classes de camadas superiores
+// import com.example.demo.controller.User;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -12,6 +17,9 @@ import jakarta.transaction.Transactional;
 public class UserRepository {
 
     private final EntityManager em;
+    // Camadas inferiores não devem depender
+    // de camadas superiores.
+    // private final UserController userController;
 
     public UserRepository(EntityManager em) {
         this.em = em;
@@ -45,9 +53,9 @@ public class UserRepository {
     @Transactional
     public void save(User user) {
         if (user.getId() == null) {
-            em.persist(user);
+            em.persist(user); // insert
         } else {
-            em.merge(user);
+            em.merge(user); // update
         }
     }
 }

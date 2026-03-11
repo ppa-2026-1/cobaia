@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.repository;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.springframework.stereotype.Repository;
+
+import com.example.demo.repository.entity.Role;
 
 import jakarta.persistence.EntityManager;
 

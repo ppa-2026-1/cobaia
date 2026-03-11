@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.transversal.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

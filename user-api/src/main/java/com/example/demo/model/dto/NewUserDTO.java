@@ -1,8 +1,10 @@
-package com.example.demo;
+package com.example.demo.model.dto;
 
 import java.util.List;
 
-public record NewUser(
+import com.example.demo.repository.entity.Profile;
+
+public record NewUserDTO( // "bolsa de dados" -> representa o JSON
     String name,
     String handle,
     String email,

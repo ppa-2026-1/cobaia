@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.repository.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,9 +16,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@Entity
+@Entity  // annotation/metadado/stereotype
 @Table(name = "users")
-public class User {
+public class User { // tabela users no banco de dados
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class User {
 
     @Column(nullable = false, unique = true, length = 255)
     private String email;
-
+    
     @Column(nullable = false, length = 255)
     private String password;
 

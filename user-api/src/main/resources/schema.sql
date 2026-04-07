@@ -27,3 +27,22 @@ CREATE TABLE IF NOT EXISTS profiles (
     type    VARCHAR(255),
     FOREIGN KEY (id) REFERENCES users(id)
 );
+
+CREATE TABLE IF NOT EXISTS vulnerability_reports (
+    id                 INTEGER          PRIMARY KEY AUTOINCREMENT,
+    user_id            INTEGER      NOT NULL,
+    system_under_test  VARCHAR(255) NOT NULL,
+    created_at         TIMESTAMP    NOT NULL,
+    updated_at         TIMESTAMP    NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS vulnerabilities (
+    id               INTEGER          PRIMARY KEY AUTOINCREMENT,
+    description      VARCHAR(255)     NOT NULL,
+    severity         VARCHAR(50)      NOT NULL,
+    report_id        INTEGER          NOT NULL,
+    created_at       TIMESTAMP        NOT NULL,
+    updated_at       TIMESTAMP        NOT NULL,
+    FOREIGN KEY (report_id) REFERENCES vulnerability_reports(id)
+);

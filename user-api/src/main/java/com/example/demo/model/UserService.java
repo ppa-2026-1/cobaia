@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.example.demo.model.dto.NewUserDTO;
 import com.example.demo.repository.RoleRepository;
@@ -14,6 +15,9 @@ import com.example.demo.repository.entity.Profile;
 import com.example.demo.repository.entity.Role;
 import com.example.demo.repository.entity.User;
 
+import jakarta.validation.Valid;
+
+@Validated // spring, por favor, processe essa classe na fila de validação
 @Service
 public class UserService {
 
@@ -33,31 +37,8 @@ public class UserService {
         this.defaultRoles = defaultRoles;
     }
     
-    
-    public void registerNewUser(NewUserDTO newUser) {
-
-        // regras de negócio no Controller
-        // é um mau cheiro de projeto (smell)
-        if (newUser.email() == null || newUser.password() == null) {
-            throw new IllegalArgumentException("Email e senha são obrigatórios");
-        }
-
-        if (newUser.email().isEmpty() || newUser.password().isEmpty()) {
-            throw new IllegalArgumentException("Email e senha não podem estar vazios");
-        }
-
-        if (!newUser.email().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            throw new IllegalArgumentException("Email não é válido");
-        }
-
-        if (!newUser.password().matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$")) {
-            throw new IllegalArgumentException("A senha deve ter pelo menos 8 caracteres e conter pelo menos uma letra e um número");
-        }
-        
-        userRepository.findByEmail(newUser.email())
-            .ifPresent(user -> {
-                throw new IllegalArgumentException("Usuário com o email " + newUser.email() + " já existe");
-            });
+                       // este objeto deve ser válido
+    public void registerNewUser(@Valid NewUserDTO newUser) {
 
         userRepository.findByHandle(newUser.handle())
             .ifPresent(user -> {

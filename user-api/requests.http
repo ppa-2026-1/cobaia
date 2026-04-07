@@ -23,7 +23,7 @@ Host: {{host}}
 Content-Type: application/json
 
 {
-    "email": "batata",
+    "email": "batata@potato.com",
     "password": "1234RT56",
     "handle": "papas",
     "name": "Kartofel",

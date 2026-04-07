@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    working_dir: /workspace
+    command: sleep infinity
+    depends_on:
+      - postgres
+      - mongo
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/cobaia
+      MONGO_URL: mongodb://mongo:27017/cobaia

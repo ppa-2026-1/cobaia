@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.example.demo.model.dto.NewUserDTO;
 import com.example.demo.repository.RoleRepository;
@@ -14,7 +15,10 @@ import com.example.demo.repository.entity.Profile;
 import com.example.demo.repository.entity.Role;
 import com.example.demo.repository.entity.User;
 
+import jakarta.validation.Valid;
+
 @Service
+@Validated
 public class UserService {
 
     private UserRepository userRepository;
@@ -34,7 +38,7 @@ public class UserService {
     }
     
     
-    public void registerNewUser(NewUserDTO newUser) {
+    public void registerNewUser(@Valid NewUserDTO newUser) {
 
         // regras de negócio no Controller
         // é um mau cheiro de projeto (smell)

@@ -96,3 +96,18 @@ Baseado em um projeto Hibernate (NHibernate) -- autor Gavin King (Software Engin
 Neste projeto, já usamos O/RM, o JPA estendido pelo Spring Data JPA.
 
 O SQL é escrito pela _"engine"_ do O/RM.
+
+## Considerações
+
+- Usar O/RM? Sim, geralmente. Não, quando a performance for crítica;
+- Evitar mapeamentos bi-direcionais, sempre que possível;
+- EAGER ou LAZY? Depende da necessidade dos dependentes (objetos filho), se são sempre necesários: EAGER (antecipado), o padrão é LAZY (tardio). É possível escrever métodos find nos repositórios que façam o carregamento antecipado (EAGER)
+
+// produto cartesiano do banco (_download do banco inteiro_)
+A > B > C > D > E
+
+Questões em aberto:
+
+- O findAll está buscando todos os registros!!! Não deveria! E se houvesse 1.000.000 de relatórios? Solução: PAGINAR! (**NÃO SE FAZ QUERIES SEM LIMIT**);
+- Herança para isolar o que é comum para todas as entidades (ex.: id, createdAt, updatedAt, ...);
+- Retornar DTO em vez da Entidade no Controller;

@@ -52,8 +52,16 @@ Content-Type: application/json
     "company": "potato inc"
 }
 
-### GET ALL REPORTS
+### GET FIRST 10 REPORTS
 
 GET /api/v1/vulnerability-reports HTTP/1.1
+Host: {{host}}
+Accept: application/json
+
+
+
+### GET THIRD PAGE
+
+GET /api/v1/vulnerability-reports?page=3&size=10 HTTP/1.1
 Host: {{host}}
 Accept: application/json

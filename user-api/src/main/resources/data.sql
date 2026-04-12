@@ -23,11 +23,12 @@ VALUES
     (2, 'Josue Torres', 'Empresa 2', 'FREE')
 ;
 
-INSERT INTO vulnerability_reports (user_id, system_under_test, created_at, updated_at) 
+-- RELACIONAL
+INSERT INTO vulnerability_reports (system_under_test, created_at, updated_at, user_id) 
 VALUES
-    (1, 'System A', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (1, 'System B', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 'System C', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ('System A', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1),
+    ('System B', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1),
+    ('System C', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 2)
 ;
 
 INSERT INTO vulnerabilities (description, severity, report_id, created_at, updated_at)

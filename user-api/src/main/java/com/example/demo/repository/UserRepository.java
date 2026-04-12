@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 @Repository
 public class UserRepository {
 
+    // CONTEXTO PERSISTÊNCIA DO JPA
     private final EntityManager em;
     // Camadas inferiores não devem depender
     // de camadas superiores.
@@ -26,6 +27,7 @@ public class UserRepository {
     }
 
     public Optional<User> findByEmail(String email) {
+        // JPQL: Java Persistence Query Language
         return em.createQuery("FROM User u WHERE u.email = :email", User.class)
                 .setParameter("email", email)
                 .getResultStream()

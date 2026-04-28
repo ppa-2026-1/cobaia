@@ -1,6 +1,7 @@
 {
     "recommendations": [
-        "ms-vscode.atom-keybindings",
+        "ms-azuretools.vscode-containers",
+        "ms-vscode.sublime-keybindings",
         "vscjava.vscode-java-pack",
         "vmware.vscode-boot-dev-pack",
         "humao.rest-client"

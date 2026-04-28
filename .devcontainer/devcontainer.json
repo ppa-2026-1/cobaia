@@ -6,7 +6,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"ms-vscode.atom-keybindings",
+				"ms-vscode.sublime-keybindings",
 				"vscjava.vscode-java-pack",
 				"vmware.vscode-boot-dev-pack",
 				"humao.rest-client"

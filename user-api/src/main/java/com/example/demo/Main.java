@@ -10,3 +10,4 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 	}
 }
+// Guilherme, Julie, Fernando, João, Thalles, Ricardo, André

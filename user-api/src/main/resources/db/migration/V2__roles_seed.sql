@@ -1,0 +1,8 @@
+-- UP
+INSERT INTO roles (name) VALUES
+    ('ROLE_USER'),
+    ('ROLE_GUEST'),
+    ('ROLE_VIEWER')
+;
+-- DOWN
+-- DELETE FROM roles WHERE name IN ('ROLE_USER', 'ROLE_GUEST', 'ROLE_VIEWER');

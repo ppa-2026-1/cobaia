@@ -1,0 +1,28 @@
+# add postgres
+version: '3.8'
+services:
+  postgres-server:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres-user
+      POSTGRES_PASSWORD: postgres-password
+      POSTGRES_DB: cobaia
+    ports:
+      - "55432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+#  mongo:
+#    image: mongo:8
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: mongo
+#      MONGO_INITDB_ROOT_PASSWORD: mongo
+#      MONGO_INITDB_DATABASE: mongo
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - mongo_data:/data/db
+
+volumes:
+  postgres_data:
+#  mongo_data:

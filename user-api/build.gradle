@@ -22,10 +22,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	
+
+	// Driver do PostgreSQL
+	implementation 'org.postgresql:postgresql:42.7.11'
+	// Flyway: engine de migração e versionamento do banco
+	implementation 'org.flywaydb:flyway-core'
+	// Não esquecer de incluir o conector Flyway <=> Banco específico
+	implementation 'org.flywaydb:flyway-database-postgresql'
+
 	// Para usar SQLite como banco de dados:
-	implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
-	implementation 'org.hibernate.orm:hibernate-community-dialects:6.4.4.Final'
+	// implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
+	// implementation 'org.hibernate.orm:hibernate-community-dialects:6.4.4.Final'
 
 	// Para usar H2 como banco de dados em memória:
 	// runtimeOnly 'com.h2database:h2'

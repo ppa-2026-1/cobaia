@@ -1,6 +1,19 @@
 # USER API ================================================================
 
 @host=localhost:8080
+# AuthController
+### Autenticar e receber um TOKEN
+POST /api/auth/login HTTP/1.1
+Host: localhost:8080
+
+{
+    "username": "teste",
+    "password": "1234"
+}
+
+### Sair
+POST /api/auth/logout HTTP/1.1
+Host: localhost:8080
 
 ### TODOS OS USUÁRIOS
 GET /api/v1/users HTTP/1.1

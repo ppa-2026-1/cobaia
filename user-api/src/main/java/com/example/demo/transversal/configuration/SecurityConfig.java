@@ -23,8 +23,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() 
-                        .anyRequest().authenticated())
+                    .requestMatchers("/api/auth/**").permitAll() 
+                    .anyRequest().authenticated())
                 .headers(headers -> headers
                 .frameOptions(cust -> cust.sameOrigin()))
                 .httpBasic(basic -> basic.disable())

@@ -1,4 +1,4 @@
-package com.example.demo.transversal;
+package com.example.demo.infrastructure;
 
 // Utility Static Class
 // Estudo de Caso -- don't

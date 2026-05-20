@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.infrastructure.validation.AtLeastOne;
 import com.example.demo.model.UserService;
 import com.example.demo.model.dto.NewUserDTO;
 import com.example.demo.model.validation.UniqueUser;
 import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.SqlUserRepositoryAdapter;
 import com.example.demo.repository.entity.Profile;
 import com.example.demo.repository.entity.Role;
 import com.example.demo.repository.entity.User;
 import com.example.demo.repository.entity.Profile.AccountType;
-import com.example.demo.transversal.validation.AtLeastOne;
 
 
 @RestController
@@ -33,11 +33,11 @@ import com.example.demo.transversal.validation.AtLeastOne;
 public class UserController {
 
     // Controller é uma camada Superior a Repository
-    private final UserRepository userRepository;
+    private final SqlUserRepositoryAdapter userRepository;
     private final UserService userService;
     
     public UserController(
-        UserRepository userRepository,
+        SqlUserRepositoryAdapter userRepository,
         UserService userService) {
         this.userRepository = userRepository;
         this.userService = userService;

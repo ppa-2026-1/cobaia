@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.model.port.IUserRepository;
 import com.example.demo.repository.entity.User;
 
 // não deve importar classes de camadas superiores
@@ -12,9 +13,11 @@ import com.example.demo.repository.entity.User;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+// class RedisUserRepository implements IUserRepository {}
 
-@Repository
-public class UserRepository {
+@Repository    // REPOSITORY DEPENDE DE MODEL
+public class SqlUserRepositoryAdapter implements IUserRepository {
+     // ADAPTER                        // PORT
 
     // CONTEXTO PERSISTÊNCIA DO JPA
     private final EntityManager em;
@@ -22,7 +25,7 @@ public class UserRepository {
     // de camadas superiores.
     // private final UserController userController;
 
-    public UserRepository(EntityManager em) {
+    public SqlUserRepositoryAdapter(EntityManager em) {
         this.em = em;
     }
 

@@ -2,9 +2,9 @@ package com.example.demo.model.dto;
 
 import java.util.List;
 
+import com.example.demo.infrastructure.validation.AtLeastOne;
 import com.example.demo.model.validation.UniqueUser;
 import com.example.demo.repository.entity.Profile;
-import com.example.demo.transversal.validation.AtLeastOne;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

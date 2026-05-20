@@ -4,13 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.example.demo.model.dto.NewUserDTO;
+import com.example.demo.model.port.IUserRepository;
 import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.entity.Profile;
 import com.example.demo.repository.entity.Role;
 import com.example.demo.repository.entity.User;
@@ -19,26 +19,45 @@ import jakarta.validation.Valid;
 
 @Validated // spring, por favor, processe essa classe na fila de validação
 @Service
-public class UserService {
+public class UserService { // MÓDULO DE ALTO NÍVEL
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private BCryptPasswordEncoder passwordEncoder;
+    // DEPENDÊNCIAS CONCRETAS DE NÍVEL MENOR
+    // private final UserRepository userRepository;
+    // DEPENDÊNCIA ABSTRATA NO MESMO NÍVEL
+    // REPOSITORY AGNOSTIC (IMPLEMENTATION AGNOSTIC)
+    private final IUserRepository userRepository;
+
+    // FIXME: TAMBÉM DEVE SER ABSTRAÍDO: VIRAR UM PORT E TER UM ADAPTER
+    private final RoleRepository roleRepository;
+    // DEPENDÊNCIA CONCRETA -> DEPENDÊNCIA ABSTRATA
+    // private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
     private Set<String> defaultRoles;
 
-    public UserService(
-            UserRepository userRepository, 
+
+    public UserService( // DEPENDÊNCIAS
+            PasswordEncoder passwordEncoder, // É ABSTRATO
+            IUserRepository userRepository, // É ABSTRATO
             RoleRepository roleRepository,
             @Value("${app.user.default.roles}") Set<String> defaultRoles) {
 
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;   
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
         this.defaultRoles = defaultRoles;
     }
     
                        // este objeto deve ser válido
     public void registerNewUser(@Valid NewUserDTO newUser) {
+        // TRANSACTION SCRIPT
+        // MÉTODOZÃO QUE FAZ TUDO
+
+        // ALTERNATIVAS:
+        // - TABLE MODULE (CHAMAR UMA STORED PROCEDURE "PROC") -- ABORDAGEM ANTIGA
+        //   COMUM EM BASES DE DADOS PROPRIETÁRIA E COM SUPORTE (ORACLE, IBM DB2, MS SQL SERVER)
+        // - DOMAIN MODEL (VERSÃO "VERDADEIRAMENTE" POO)
+        //   DDD - DOMAIN-DRIVEN DESIGN (PROJETO GUIADO PELO DOMÍNIO)
 
         userRepository.findByHandle(newUser.handle())
             .ifPresent(user -> {

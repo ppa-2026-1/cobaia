@@ -1,4 +1,4 @@
-package com.example.demo.transversal.validation;
+package com.example.demo.infrastructure.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

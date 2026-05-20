@@ -1,4 +1,4 @@
-package com.example.demo.transversal.validation;
+package com.example.demo.infrastructure.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

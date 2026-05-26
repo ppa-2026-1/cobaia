@@ -2,7 +2,7 @@ package com.example.demo.model.validation;
 
 import org.springframework.stereotype.Component;
 
-import com.example.demo.repository.SqlUserRepositoryAdapter;
+import com.example.demo.repository.JpaUserRepositoryAdapter;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -11,9 +11,9 @@ import jakarta.validation.ConstraintValidatorContext;
 public class UniqueUserValidator 
     implements ConstraintValidator<UniqueUser, String> {
 
-    private final SqlUserRepositoryAdapter userRepository;
+    private final JpaUserRepositoryAdapter userRepository;
 
-    public UniqueUserValidator(SqlUserRepositoryAdapter userRepository) {
+    public UniqueUserValidator(JpaUserRepositoryAdapter userRepository) {
         this.userRepository = userRepository;
     }
 

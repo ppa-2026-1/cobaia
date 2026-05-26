@@ -21,7 +21,7 @@ import com.example.demo.model.UserService;
 import com.example.demo.model.dto.NewUserDTO;
 import com.example.demo.model.validation.UniqueUser;
 import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.SqlUserRepositoryAdapter;
+import com.example.demo.repository.JpaUserRepositoryAdapter;
 import com.example.demo.repository.entity.Profile;
 import com.example.demo.repository.entity.Role;
 import com.example.demo.repository.entity.User;
@@ -33,11 +33,11 @@ import com.example.demo.repository.entity.Profile.AccountType;
 public class UserController {
 
     // Controller é uma camada Superior a Repository
-    private final SqlUserRepositoryAdapter userRepository;
+    private final JpaUserRepositoryAdapter userRepository;
     private final UserService userService;
     
     public UserController(
-        SqlUserRepositoryAdapter userRepository,
+        JpaUserRepositoryAdapter userRepository,
         UserService userService) {
         this.userRepository = userRepository;
         this.userService = userService;

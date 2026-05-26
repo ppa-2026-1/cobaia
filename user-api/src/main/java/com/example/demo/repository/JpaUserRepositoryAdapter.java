@@ -16,7 +16,7 @@ import jakarta.transaction.Transactional;
 // class RedisUserRepository implements IUserRepository {}
 
 @Repository    // REPOSITORY DEPENDE DE MODEL
-public class SqlUserRepositoryAdapter implements IUserRepository {
+public class JpaUserRepositoryAdapter implements IUserRepository {
      // ADAPTER                        // PORT
 
     // CONTEXTO PERSISTÊNCIA DO JPA
@@ -25,7 +25,7 @@ public class SqlUserRepositoryAdapter implements IUserRepository {
     // de camadas superiores.
     // private final UserController userController;
 
-    public SqlUserRepositoryAdapter(EntityManager em) {
+    public JpaUserRepositoryAdapter(EntityManager em) {
         this.em = em;
     }
 

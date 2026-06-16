@@ -23,7 +23,7 @@ public class User { // tabela users no banco de dados
     // OBJETOS COM ESTADO SEM COMPORTAMENTO DE MODELO ANÊMICO (anemic domain model)
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, unique = true, length = 255)

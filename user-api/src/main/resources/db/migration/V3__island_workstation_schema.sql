@@ -9,7 +9,7 @@ CREATE TABLE islands (
 
 CREATE TABLE workstations (
     id          SERIAL      PRIMARY KEY,
-    island_id   INTEGER     NOT NULL REFERENCES island(id),
+    island_id   INTEGER     NOT NULL REFERENCES islands(id),
     user_id     INTEGER         NULL REFERENCES users(id),
     specs       TEXT        NOT NULL,
     created_at  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,

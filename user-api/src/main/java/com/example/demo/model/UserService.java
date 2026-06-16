@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import com.example.demo.model.domain.Islands;
 import com.example.demo.model.domain.Islands.AllocationStrategy;
 import com.example.demo.model.dto.NewUserDTO;
+import com.example.demo.model.dto.NotificationDTO;
 import com.example.demo.model.port.IIslandRepository;
 import com.example.demo.model.port.IUserRepository;
 import com.example.demo.repository.RoleRepository;
@@ -46,11 +47,14 @@ public class UserService { // MÓDULO DE ALTO NÍVEL
 
     private Set<String> defaultRoles;
 
+    private NotificationFacade notificationService;
+
     public UserService( // DEPENDÊNCIAS
             PasswordEncoder passwordEncoder, // É ABSTRATO
             IUserRepository userRepository, // É ABSTRATO
             IIslandRepository islandRepository, // É ABSTRATO
             RoleRepository roleRepository,
+            NotificationFacade notification,
             @Value("${app.user.default.roles}") Set<String> defaultRoles) {
 
         this.userRepository = userRepository;
@@ -58,6 +62,7 @@ public class UserService { // MÓDULO DE ALTO NÍVEL
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.defaultRoles = defaultRoles;
+        this.notificationService = notification;
     }
 
     
@@ -124,6 +129,13 @@ public class UserService { // MÓDULO DE ALTO NÍVEL
         user.setProfile(profile);
 
         userRepository.save(user);
+
+        notificationService.sendNotification(
+            new NotificationDTO(user.getEmail(),
+                "Sua conta foi criada",
+                "Parabéns %s, sua conta foi criada com sucesso. Bem-vindo a bordo do nosso espetacular serviço de usuários. lorem ipsum dolor nocet".formatted(user.getProfile().getName()),
+                List.of("mail"))
+        );
     }
 
     private String generateHandle(String email) {

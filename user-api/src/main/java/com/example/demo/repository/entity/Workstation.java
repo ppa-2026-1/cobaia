@@ -17,6 +17,14 @@ import jakarta.persistence.TemporalType;
 @Table(name = "workstations")
 public class Workstation {
 
+    public boolean isOccupied() { // propriedade calculada (UAP)
+        return this.user != null;
+    }
+
+    public boolean isFree() {
+        return this.user == null;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -121,13 +129,13 @@ public class Workstation {
         return true;
     }
 
-    public void assignUser(User user) {
+    public class WorkstationNotAvailableException
+            extends RuntimeException {}
+
+    public void assign(User user) {
         if (this.user == null) this.user = user;
         else throw new WorkstationNotAvailableException();
-    }
-
-    public class WorkstationNotAvailableException
-            extends RuntimeException {};
+    };
 }
 
 

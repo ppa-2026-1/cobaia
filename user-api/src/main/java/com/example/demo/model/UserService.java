@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import com.example.demo.model.domain.Islands;
+import com.example.demo.model.domain.Islands.AllocationStrategy;
 import com.example.demo.model.dto.NewUserDTO;
 import com.example.demo.model.port.IIslandRepository;
 import com.example.demo.model.port.IUserRepository;
@@ -57,73 +60,29 @@ public class UserService { // MÓDULO DE ALTO NÍVEL
         this.defaultRoles = defaultRoles;
     }
 
-    public enum AllocationStrategy {
-        FIRST_AVAILABLE, // PRIMEIRO DISPONÍVEL
-        MOST_AVAILABLE, // COM MAIS ESTAÇÕES DISPONÍVEIS
-        LEAST_AVAILABLE, // COM MENOS ESTAÇÕES DISPONÍVEIS
-        PRIORIZE_LARGERS_ISLANDS // PRIORIZE ILHAS MAIORES (CIRCULAR > RECTANGULAR > SQUARED > TRIANGULAR > PAIRED)
-    }
+    
 
     public Long assignWorkstationToUser(@NonNull String userHandle, AllocationStrategy strategy) {
-
-        if (strategy == null) {
-            strategy = AllocationStrategy.MOST_AVAILABLE;
-        }
-
-        final var user = userRepository.findByHandle(userHandle)
+        // TRANSACTION SCRIPT: padrão de arquitetura para organização da lógica
+        // toda a lógica é roteirizada no método caso de uso
+        
+        
+        // APPLICATION LAYER (não é mais um domain layer)
+        // ------------------------------------------------------
+        final User user = userRepository.findByHandle(userHandle)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
 
-        final List<Island> islands = islandRepository.findIslandWithAvailableWorkstations();
+        final Islands islands = Islands.of( // factory method
+            islandRepository.findIslandWithAvailableWorkstations()
+        );
 
-        Island islandToAssignTo = null;
-        Workstation freeWorkstation = null;
+        final Workstation workstation = 
+            islands.assignUser(user, strategy);
 
-        switch (strategy) {
-            case FIRST_AVAILABLE:
-                throw new UnsupportedOperationException("Estratégia FIRST_AVAILABLE ainda não implementada");
-            case MOST_AVAILABLE:
-                // também é possivel classificar as ilhas por número de estações de trabalho disponíveis e escolher a primeira
-                for (int slots = 1; slots < Island.Disposition.CIRCULAR.slots; slots++) {
-                    final int positions = slots;
-                    var possibleIsland = islands.stream()
-                            .filter(i -> i.getWorkstations().stream()
-                                    .map(Workstation::getUser)
-                                    .filter(Objects::nonNull)
-                                    .count() == positions)
-                            .findFirst();
-                    if (possibleIsland.isPresent()) {
-                        islandToAssignTo = possibleIsland.get();
-                        break;
-                    }
-                }
+        islandRepository.save(workstation.getIsland());
 
-                if (islandToAssignTo == null) {
-                    islandToAssignTo = islands.iterator().next();
-                }
-
-                for (var w : islandToAssignTo.getWorkstations()) {
-                    if (w.getUser() == null) {
-                        freeWorkstation = w;
-                        break;
-                    }
-                }
-
-                break;
-            case LEAST_AVAILABLE:
-                throw new UnsupportedOperationException("Estratégia LEAST_AVAILABLE ainda não implementada");
-            default:
-                break;
-        }
-
-        if (freeWorkstation == null) {
-            throw new IllegalStateException("Não há estações de trabalho disponíveis na ilha selecionada");
-        }
-
-        freeWorkstation.setUser(user);
-
-        islandRepository.save(islandToAssignTo);
-
-        return freeWorkstation.getId();
+        return workstation.getId();
+        // ------------------------------------------------------
 
     }
 

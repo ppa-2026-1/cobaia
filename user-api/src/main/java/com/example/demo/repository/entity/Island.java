@@ -2,6 +2,7 @@ package com.example.demo.repository.entity;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -129,17 +130,33 @@ public class Island {
             .findFirst();
     }
 
-    public Island assignUserToTheFirstWorkstationAvailable(User user) {
-        firstAvailableWorkstation()
-                .ifPresent(w -> w.assignUser(user));
-        return this;
-    }
-
     public Optional<Workstation> getFirstAvailableWorkstation() {
         return this.getWorkstations().stream()
                 .filter(ws -> ws.getUser() == null)
                 .findFirst();
     }
+    // estação de trabalho tem usuário?
+    // workstation está ocupada?
+    public long getOcuppation() {
+        return this.getWorkstations().stream()
+                    .filter(Workstation::isOccupied) // línguagem úbiqua
+                    .count();
+                    /*
+                   .map(Workstation::getUser) // está ocupada?
+                   .filter(Objects::nonNull)
+                   .count();
+                    */
+    }
 
-    
+    public Workstation assignUser(User user) {
+        
+        var workstation = this.getWorkstations().stream()
+            .filter(Workstation::isFree)
+            .findAny()
+            .orElseThrow();
+
+        workstation.assign(user);
+
+        return workstation;
+    }
 }

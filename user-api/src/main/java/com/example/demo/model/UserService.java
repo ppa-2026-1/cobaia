@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import java.sql.Date;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,11 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import com.example.demo.model.domain.Islands;
 import com.example.demo.model.domain.Islands.AllocationStrategy;
 import com.example.demo.model.dto.NewUserDTO;
-import com.example.demo.model.dto.NotificationDTO;
 import com.example.demo.model.port.IIslandRepository;
 import com.example.demo.model.port.IUserRepository;
 import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.entity.Island;
 import com.example.demo.repository.entity.Profile;
 import com.example.demo.repository.entity.Role;
 import com.example.demo.repository.entity.User;
@@ -47,14 +42,14 @@ public class UserService { // MÓDULO DE ALTO NÍVEL
 
     private Set<String> defaultRoles;
 
-    private NotificationFacade notificationService;
+    private INotificationService notificationService;
 
     public UserService( // DEPENDÊNCIAS
             PasswordEncoder passwordEncoder, // É ABSTRATO
             IUserRepository userRepository, // É ABSTRATO
             IIslandRepository islandRepository, // É ABSTRATO
             RoleRepository roleRepository,
-            NotificationFacade notification,
+            INotificationService notificationService,
             @Value("${app.user.default.roles}") Set<String> defaultRoles) {
 
         this.userRepository = userRepository;
@@ -62,7 +57,7 @@ public class UserService { // MÓDULO DE ALTO NÍVEL
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.defaultRoles = defaultRoles;
-        this.notificationService = notification;
+        this.notificationService = notificationService;
     }
 
     
@@ -131,11 +126,10 @@ public class UserService { // MÓDULO DE ALTO NÍVEL
         userRepository.save(user);
 
         notificationService.sendNotification(
-            new NotificationDTO(user.getEmail(),
+                user.getEmail(),
                 "Sua conta foi criada",
-                "Parabéns %s, sua conta foi criada com sucesso. Bem-vindo a bordo do nosso espetacular serviço de usuários. lorem ipsum dolor nocet".formatted(user.getProfile().getName()),
-                List.of("mail"))
-        );
+                "Parabéns %s, sua conta foi criada com sucesso. Bem-vindo a bordo do nosso espetacular serviço de usuários. lorem ipsum dolor nocet".formatted(user.getProfile().getName())
+            );
     }
 
     private String generateHandle(String email) {

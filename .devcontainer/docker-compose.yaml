@@ -12,5 +12,5 @@ services:
       - postgres-server
 #      - mongo
     environment:
-      POSTGRES_URL: jdbc:postgresql://postgres-server:55432/cobaia
+      POSTGRES_URL: jdbc:postgresql://postgres-server:5432/cobaia
 #      MONGO_URL: mongodb://mongo:27017/cobaia
